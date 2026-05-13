@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Monitor</title>
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⚡ System Monitor</h1>
+            <span id="status" class="status offline">● Отключено</span>
+        </header>
+
+        <!-- Верхний ряд: CPU + GPU -->
+        <div class="grid-top">
+            <div class="widget widget-wide widget-cpu">
+                <h2>🧠 CPU</h2>
+                <div class="wide-content">
+                    <div class="gauge">
+                        <svg viewBox="0 0 120 120">
+                            <circle class="bg" cx="60" cy="60" r="52"/>
+                            <circle class="fill" cx="60" cy="60" r="52" id="cpu-gauge"/>
+                        </svg>
+                        <span class="gauge-value" id="cpu-value">0%</span>
+                    </div>
+                    <div class="chart-wide">
+                        <canvas id="cpu-chart" width="360" height="100"></canvas>
+                    </div>
+                </div>
+                <div class="cpu-details">
+                    <span id="cpu-cores">Ядер: --</span>
+                    <span id="cpu-freq">Частота: --</span>
+                </div>
+            </div>
+
+            <div class="widget widget-wide widget-gpu">
+                <h2>🎮 GPU</h2>
+                <div class="wide-content">
+                    <div class="gpu-stats">
+                        <div class="gpu-stat">
+                            <span class="label">Загрузка</span>
+                            <span class="value" id="gpu-load">--%</span>
+                        </div>
+                        <div class="gpu-stat">
+                            <span class="label">Видеопамять</span>
+                            <span class="value" id="gpu-vram">--/-- MB</span>
+                        </div>
+                        <div class="gpu-stat">
+                            <span class="label">Температура</span>
+                            <span class="value" id="gpu-temp">--°C</span>
+                        </div>
+                    </div>
+                    <div class="chart-wide">
+                        <canvas id="gpu-chart" width="360" height="100"></canvas>
+                    </div>
+                </div>
+                <div class="gpu-name" id="gpu-name">GPU не обнаружен</div>
+            </div>
+        </div>
+
+        <!-- Нижний ряд: Диски+Память + Сеть -->
+        <div class="grid-bottom">
+            <div class="widget widget-wide widget-ramdisk">
+                <h2>💾 Память и диски</h2>
+                <div class="ramdisk-content">
+                    <div class="ram-section">
+                        <h3>RAM</h3>
+                        <div class="gauge small">
+                            <svg viewBox="0 0 100 100">
+                                <circle class="bg" cx="50" cy="50" r="42"/>
+                                <circle class="fill" cx="50" cy="50" r="42" id="ram-gauge"/>
+                            </svg>
+                            <span class="gauge-value small" id="ram-value">0%</span>
+                        </div>
+                        <span class="ram-text" id="ram-used">0 / 0 GB</span>
+                    </div>
+                    <div class="disk-section" id="disk-list"></div>
+                </div>
+            </div>
+
+            <div class="widget widget-wide widget-net">
+                <h2>🌐 Сеть</h2>
+                <div class="net-content">
+                    <div class="net-stats">
+                        <div class="net-stat">
+                            <span class="label">Отправка</span>
+                            <span class="value up" id="net-up">0 Mbps</span>
+                        </div>
+                        <div class="net-stat">
+                            <span class="label">Загрузка</span>
+                            <span class="value down" id="net-down">0 Mbps</span>
+                        </div>
+                    </div>
+                    <div class="chart-wide">
+                        <canvas id="net-chart" width="360" height="100"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Процессы -->
+        <div class="widget widget-processes">
+            <h2>📋 Топ процессов</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>PID</th>
+                        <th>Имя</th>
+                        <th>CPU %</th>
+                        <th>RAM %</th>
+                    </tr>
+                </thead>
+                <tbody id="process-table"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="/static/js/dashboard.js"></script>
+</body>
+</html>
